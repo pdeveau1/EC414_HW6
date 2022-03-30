@@ -21,7 +21,9 @@ for i = 1:n
         cov_ij = cov(X_i,X_j);
         var_i = var(X_i);
         var_j = var(X_j);
-        cov_ij/sqrt(var_i*var_j)
+        corr_coeff = cov_ij/sqrt(var_i*var_j);
+        fprintf('The empirical correlation coefficient between feature %d and feature %d is\n',i,j);
+        disp(corr_coeff);
     end
 end
 %% (a)iii) Create 2D scatter plots
