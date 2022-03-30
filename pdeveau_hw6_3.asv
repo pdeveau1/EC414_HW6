@@ -32,14 +32,11 @@ for i = 1:n
     for j = i+1:n
         subplot(2,3,sp)
         scatter(X_data(:,i),X_data(:,j));
-        xlabel(sprintf('Feature Vector %d',j));
-        ylabel(sprintf('Feature Vector %d',i));
+        xlabel(sprintf('Feature Vector %d'))
         titl = sprintf('Feature Vector %d vs. Feature Vector %d',i,j);
         title(titl);
-        sp = sp + 1;
     end
 end
-%% (b)
 t = 1:300;
 t = 20 .* t;
 
