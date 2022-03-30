@@ -43,9 +43,11 @@ for i = 1:n
 end
 %% (b)
 t = 1:300;
-t = 20 .* t;
+t = 20 .* t; %iteration number
 
-x_ext = [X_data_train;ones(1,n)];
+m = length(unique(Y_label));%there are m classes 
+
+x_ext = [X_data_train;ones(1,n)]; %(d + 1) x n matrix
 
 
 
