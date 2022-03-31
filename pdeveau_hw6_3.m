@@ -1,5 +1,6 @@
 %loads Label_legend, X_data_test, X_data_train, Y_label_test, Y_label_train
 load("iris.mat")
+lambda = 0.1;
 %% (a)i) Plot the histogram of class labels
 %vector of all labels
 Y_label = [Y_label_test; Y_label_train];
@@ -13,7 +14,7 @@ hold off
 %% (a)ii) Compute the matrix of empirical correlation coefficients
 X_data = [X_data_test; X_data_train];
 [d n] = size(X_data);
-
+m = length(unique(Y_label));
 for i = 1:n
     for j = i+1:n
         X_i = X_data(:,i);
@@ -42,12 +43,15 @@ for i = 1:n
     end
 end
 %% (b)
-t = 1:300;
-t = 20 .* t; %iteration number
-
-m = length(unique(Y_label));%there are m classes 
-
-x_ext = [X_data_train;ones(1,n)]; %(d + 1) x n matrix
-
-
-
+THETA = SGD(X_data_train, Y_label_train);
+%regularized logistic loss function
+sum_fj = 0;
+for j = 1:n
+    sum_fj = sum_fj + fj(X_data_train,Y_label_train,THETA,j);
+end
+f0 = 0;
+for l = 1:m
+    f0 = f0 + norm(THETA(:,l))^2;
+end
+f0 = f0 * lambda;
+g = f0 + sum_fj;

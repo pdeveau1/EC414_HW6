@@ -1,5 +1,6 @@
 %loads Label_legend, X_data_test, X_data_train, Y_label_test, Y_label_train
 load("iris.mat")
+lambda = 0.1;
 %% (a)i) Plot the histogram of class labels
 %vector of all labels
 Y_label = [Y_label_test; Y_label_train];
@@ -21,7 +22,9 @@ for i = 1:n
         cov_ij = cov(X_i,X_j);
         var_i = var(X_i);
         var_j = var(X_j);
-        cov_ij/sqrt(var_i*var_j)
+        corr_coeff = cov_ij/sqrt(var_i*var_j);
+        fprintf('The empirical correlation coefficient between feature %d and feature %d is\n',i,j);
+        disp(corr_coeff);
     end
 end
 %% (a)iii) Create 2D scatter plots
@@ -32,15 +35,23 @@ for i = 1:n
     for j = i+1:n
         subplot(2,3,sp)
         scatter(X_data(:,i),X_data(:,j));
-        xlabel(sprintf('Feature Vector %d'))
+        xlabel(sprintf('Feature Vector %d',j));
+        ylabel(sprintf('Feature Vector %d',i));
         titl = sprintf('Feature Vector %d vs. Feature Vector %d',i,j);
         title(titl);
+        sp = sp + 1;
     end
 end
-t = 1:300;
-t = 20 .* t;
-
-x_ext = [X_data_train;ones(1,n)];
-
-
-
+%% (b)
+THETA = SGD(X_data_train, Y_label_train);
+%regularized logistic loss function
+sum_fj = 0;
+for j = 1:n
+    sum_fj = sum_fj + fj(X_data_train,Y_label_train,THETA,j);
+end
+f0 = 0;
+for l = 1:m
+    f0 = f0 + norm(THETA(:,l)^2);
+end
+f0 = f0 * lambda;
+g = f0

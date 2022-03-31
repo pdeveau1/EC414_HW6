@@ -1,26 +1,12 @@
-function THETA = SGD(X,Y)
+function THETA = SGD(X,Y,t_max,lambda,s_t)
     [d n] = size(X);
-    m = size(unique(Y));
-
-    X_ext = [X;ones(1,n)]; %(d + 1) x n matrix with a one added to the end of each feature vector
-
-    t_max = 6000;
-    %initialize THETA
-    THETA = zeros(d,m);
+    m = length(unique(Y));
+    %initialize THETA to zeros
+    THETA = zeros((d + 1),m); %(d + 1) x m
     for t = 1:t_max
-        s_t = 0.01/t;
-        lambda = 0.1;
         %choose sample index: j uniformly at random from {1,...,n}
         j = randi(n,1,1);
-        %compute gradients:
-        for k = 1:m
-            p_num = exp(THETA(:,k)'*X_ext(:,j));
-            p_denom = 0;
-            
-        end
-        %update parameters:
-        for k = 1:m
-        end
+        %compute gradients
+        for 
     end
-    %output THETA
 end
