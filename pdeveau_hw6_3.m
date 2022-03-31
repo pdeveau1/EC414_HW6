@@ -43,15 +43,25 @@ for i = 1:n
     end
 end
 %% (b)
-THETA = SGD(X_data_train, Y_label_train);
-%regularized logistic loss function
-sum_fj = 0;
-for j = 1:n
-    sum_fj = sum_fj + fj(X_data_train,Y_label_train,THETA,j);
+g_t = [];
+for t = 20:20:300
+    THETA = SGD(X_data_train, Y_label_train,t,lambda);
+    %regularized logistic loss function
+    sum_fj = 0;
+    for j = 1:n
+        sum_fj = sum_fj + fj(X_data_train,Y_label_train,THETA,j);
+    end
+    f0 = 0;
+    for l = 1:m
+        f0 = f0 + norm(THETA(:,l))^2;
+    end
+    f0 = f0 * lambda;
+    g = f0 + sum_fj;
+    g_t = [g_t (1/n)*g];
 end
-f0 = 0;
-for l = 1:m
-    f0 = f0 + norm(THETA(:,l))^2;
-end
-f0 = f0 * lambda;
-g = f0 + sum_fj;
+
+figure(3)
+plot(20:20:300,g_t);
+title('l2-regularized logistic lost against iteration number t')
+xlabel('t');
+ylabel('l2-regularized logistic loss normalized by the total number of training examples');

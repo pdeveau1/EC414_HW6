@@ -14,7 +14,7 @@ hold off
 %% (a)ii) Compute the matrix of empirical correlation coefficients
 X_data = [X_data_test; X_data_train];
 [d n] = size(X_data);
-
+m = length(unique(Y_label));
 for i = 1:n
     for j = i+1:n
         X_i = X_data(:,i);
@@ -43,6 +43,9 @@ for i = 1:n
     end
 end
 %% (b)
+for t = 1:300:20
+    
+end
 THETA = SGD(X_data_train, Y_label_train);
 %regularized logistic loss function
 sum_fj = 0;
@@ -51,7 +54,7 @@ for j = 1:n
 end
 f0 = 0;
 for l = 1:m
-    f0 = f0 + norm(THETA(:,l)^2);
+    f0 = f0 + norm(THETA(:,l))^2;
 end
 f0 = f0 * lambda;
-g = f0
+g = f0 + sum_fj;
