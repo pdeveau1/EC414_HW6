@@ -45,11 +45,11 @@ end
 %% (b)
 g_t = [];
 for t = 20:20:300
-    THETA = SGD(X_data_train, Y_label_train,t,lambda);
+    THETA = SGD(X_data_train', Y_label_train,t,lambda);
     %regularized logistic loss function
     sum_fj = 0;
     for j = 1:n
-        sum_fj = sum_fj + fj(X_data_train,Y_label_train,THETA,j);
+        sum_fj = sum_fj + fj(X_data_train',Y_label_train,THETA,j);
     end
     f0 = 0;
     for l = 1:m
@@ -65,3 +65,33 @@ plot(20:20:300,g_t);
 title('l2-regularized logistic lost against iteration number t')
 xlabel('t');
 ylabel('l2-regularized logistic loss normalized by the total number of training examples');
+%% (c)CCR of the training set
+[d n] = size(X_data_train');
+[r c] = size(Y_label_train);
+X_ext = [X_data_train';ones(1,n)];
+CCR = [];
+y_j = zeros(r,c);
+for t = 20:20:300
+    THETA = SGD(X_data_train', Y_label_train,t,lambda);
+    for j = 1:n
+        args = [];
+        for l = 1:m
+            args = [args THETA(:,l)'*X_ext(:,j)];
+        end
+        [M,I] = max(args);
+        y_j(j) = I;
+    end
+    ccr = sum(Y_label_train == y_j);
+    ccr = (1/n)*ccr;
+    CCR = [CCR ccr];
+end
+figure(4)
+hold on
+plot(20:20:300,CCR);
+title('CCR of the training set against iteration number');
+xlabel('t');
+ylabel('CCR');
+hold off
+%% (f) Final values
+fprintf('(i)THETA is \n');
+disp(THETA);
