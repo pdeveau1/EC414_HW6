@@ -10,7 +10,7 @@ function THETA = SGD(X,Y,t_max,lambda)
         j = randi(n,1,1);
         %compute gradients
         for k = 1:m
-             p_num = exp(THETA(:,k)'*X_ext(:,j));
+            p_num = exp(THETA(:,k)'*X_ext(:,j));
             p_denom = 0;
             for l = 1:m
                 p_denom = p_denom + exp(THETA(:,l)'*X_ext(:,j));

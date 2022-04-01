@@ -121,6 +121,20 @@ xlabel('t');
 ylabel('CCR');
 ylim([0 1])
 hold off
+%% (e) Log-Loss
+ll_t = [];
+for t = 20:20:6000
+    THETA = SGD(X_data_test', Y_label_test,t,lambda);
+    ll = logloss(X_data_test', Y_label_test,THETA);
+    ll_t = [ll_t ll];
+end
+figure(6)
+hold on
+plot(20:20:6000,ll_t);
+title('Log-loss of the Test Set Against Iteration Number');
+xlabel('t');
+ylabel('log-loss');
+hold off
 %% (f) Final values
 fprintf('(i)The final THETA after 6000 iterations is \n');
 disp(THETA);
